@@ -1,5 +1,4 @@
 # Параметры по умолчанию
-_
 backup_dir="/path/to/backup/dir"
 user="username"
 server="1.2.3.4"
