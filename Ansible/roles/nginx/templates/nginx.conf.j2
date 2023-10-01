@@ -1,0 +1,39 @@
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    server {
+        listen 80;
+        server_name {{ domain_name }};
+        
+        {% if enable_https %}
+        listen 443 ssl;
+        ssl_certificate {{ ssl_cert_path }};
+        ssl_certificate_key {{ ssl_key_path }};
+        
+        {% if generate_ssl_certs %}
+        # Generate SSL certificates
+        # ...
+        {% endif %}
+        
+        {% endif %}
+        
+        location / {
+            root /var/www/{{ domain_name }};
+            index index.html;
+        }
+        
+        {% if enable_phpsocket %}
+        location ~ \.php$ {
+            root /var/www/{{ domain_name }};
+            fastcgi_pass unix:/var/run/php-fpm.sock;
+            include fastcgi_params;
+        }
+        {% endif %}
+    }
+}

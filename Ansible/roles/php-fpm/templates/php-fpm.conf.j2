@@ -1,0 +1,16 @@
+[global]
+{% if log_path %}
+error_log = {{ log_path }}/php-fpm.log
+{% endif %}
+
+[www]
+user = www-data
+group = www-data
+{% if num_workers %}
+pm = static
+pm.max_children = {{ num_workers }}
+{% endif %}
+
+{% if enable_phpsocket %}
+listen = /var/run/php-fpm.sock
+{% endif %}

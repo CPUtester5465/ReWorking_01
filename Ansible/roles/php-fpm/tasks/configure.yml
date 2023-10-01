@@ -1,0 +1,6 @@
+---
+- name: Generate php-fpm configuration
+  template:
+    src: php-fpm.conf.j2
+    dest: /etc/php-fpm.conf
+  notify: Restart php-fpm service

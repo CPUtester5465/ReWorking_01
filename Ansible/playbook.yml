@@ -1,0 +1,14 @@
+---
+- name: Deploy web server
+  hosts: web_servers
+  roles:
+    - nginx
+    - php-fpm
+  post_tasks:
+    - name: Open phpinfo
+      uri:
+        url: http://{{ domain_name }}/phpinfo.php
+        status_code: 200
+      register: response
+    - debug:
+        var: response
